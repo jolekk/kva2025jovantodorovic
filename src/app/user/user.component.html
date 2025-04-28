@@ -1,0 +1,283 @@
+<div class="wrapper" *ngIf="user">
+    
+    <mat-card class="user-card" appearance="outlined">
+        <mat-card-header>
+            <img mat-card-avatar class="example-header-image" [src]="['https://ui-avatars.com/api/?name='+user.email]">
+            <mat-card-title>{{user.firstName}} {{user.lastName}}</mat-card-title>
+            <mat-card-subtitle>
+                <p class="no-border">Total orders: {{user.orders.length}}</p>
+                <!-- <p class="no-border">Destination: {{user.favouriteDestination}}</p> -->
+            </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="user-card-content">
+            <mat-accordion multi>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <i class="fa-solid fa-key"></i>&nbsp;Change Password
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <mat-form-field class="full-width">
+                        <mat-label>Old password</mat-label>
+                        <input matInput type="password" [(ngModel)]="oldPasswordValue" />
+                    </mat-form-field>
+                    <mat-form-field class="full-width">
+                        <mat-label>New password</mat-label>
+                        <input matInput type="password" [(ngModel)]="newPasswordValue" />
+                    </mat-form-field>
+                    <mat-form-field class="full-width">
+                        <mat-label>Repeat password</mat-label>
+                        <input matInput type="password" [(ngModel)]="repeatPasswordValue" />
+                    </mat-form-field>
+                    <button mat-button (click)="doChangePassword()">
+                        <i class="fa-solid fa-paper-plane"></i> Sumbit
+                    </button>
+                </mat-expansion-panel>
+                <mat-expansion-panel *ngIf="userCopy">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <i class="fa-solid fa-user-tag"></i>&nbsp;Update profile
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <mat-form-field class="full-width">
+                        <mat-label>Email</mat-label>
+                        <input matInput type="email" [(ngModel)]="userCopy.email" disabled/>
+                    </mat-form-field>
+                    <mat-form-field class="full-width">
+                        <mat-label>First Name</mat-label>
+                        <input matInput type="text" [(ngModel)]="userCopy.firstName" />
+                    </mat-form-field>
+                    <mat-form-field class="full-width">
+                        <mat-label>Last Name</mat-label>
+                        <input matInput type="text" [(ngModel)]="userCopy.lastName" />
+                    </mat-form-field>
+                    <mat-form-field class="full-width">
+                        <mat-label>Phone</mat-label>
+                        <input matInput type="tel" [(ngModel)]="userCopy.phone" />
+                    </mat-form-field>
+                    <mat-form-field class="full-width">
+                        <mat-label>Address</mat-label>
+                        <input matInput type="text" [(ngModel)]="userCopy.address" />
+                    </mat-form-field>
+                    <mat-form-field class="full-width">
+                        <mat-label>Select Favourite Genre</mat-label>
+                        <mat-select [(ngModel)]="userCopy.favouritegenre" >
+                            <mat-option *ngFor="let genre of listGenre" [value]="genre">
+                                {{genre.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <button mat-button (click)="doUpdateUser()">
+                        <i class="fa-solid fa-paper-plane"></i> Update
+                    </button>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card appearance="outlined" *ngIf="user.orders.length == 0" class="no-order">
+        <mat-card-content>
+            <h1>You have no orders yet!</h1>
+            <p>To place an order visit the <a routerLink="/searh" class="cyan">search page</a></p>
+        </mat-card-content>
+    </mat-card>
+
+    <h1>Order List</h1>
+    <div *ngIf="user?.orders?.length && user.orders.length > 0" class="simple-table-container">
+        <table class="simple-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Internal ID</th>
+                    <th>Runtime</th>
+                    <th>Count</th>
+                    <th>Price Per Ticket</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Rating</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let order of user.orders">
+                    <td><img *ngIf="order.poster" mat-card-image [src]="order.poster" [alt]="order.title" width="60" height="60" /></td>
+                    <td>{{ order.title }}</td>
+                    <td>{{ order.internalId }}</td>
+                    <td>{{ order.runTime }}</td>
+                    <td>{{ order.count }}</td>
+                    <td>{{ order.pricePerItem }} Din</td>
+                    <td>{{ order.pricePerItem * order.count }} Din</td>
+                    <td>
+                        <div *ngIf="order.status == 'paid' && order.rating == null">PAID</div>
+                        <div *ngIf="order.status == 'paid' && order.rating == true">LIKED</div>
+                        <div *ngIf="order.status == 'paid' && order.rating == false">DISLIKED</div>
+                        <div *ngIf="order.status == 'ordered' || order.status == 'canceled'">
+                            {{ order.status.toUpperCase() }}
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="order.rating == null">NO RATING</div>
+                        <div *ngIf="order.rating == true">LIKED</div>
+                        <div *ngIf="order.rating == false">DISLIKED</div>
+                    </td>
+                    <td>
+                        <!-- <a [routerLink]="['/details/', order.id]" class="action-link">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i> Details
+                        </a> -->
+                        <div *ngIf="order.status == 'ordered'">
+                            <button (click)="doPay(order)">
+                                <i class="fa-solid fa-cart-shopping"></i> Pay
+                            </button>
+                            <button (click)="doCancel(order)">
+                                <i class="fa-solid fa-ban"></i> Cancel
+                            </button>
+                        </div>
+                        <div *ngIf="order.status == 'paid' && order.rating == null">
+                            <button (click)="doRating(order, true)">
+                                <i class="fa-solid fa-thumbs-up"></i> Like
+                            </button>
+                            <button (click)="doRating(order, false)">
+                                <i class="fa-solid fa-thumbs-down"></i> Dislike
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+
+    <!-- <div *ngIf="user?.orders?.length && user.orders.length > 0">
+        <div>
+            <h1>Order List</h1>
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <i class="fa-solid fa-hashtag"></i> ID
+                    </th>
+                    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="title">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <i class="fa-solid fa-map-location-dot"></i> Title
+                    </th>
+                    <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="internalId">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <i class="fa-solid fa-plane-circle-exclamation"></i> internal Id
+                    </th>
+                    <td mat-cell *matCellDef="let element"> {{element.internalId}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="runTime">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <i class="fa-solid fa-plane"></i> Runtime
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element.runTime}}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="count">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <i class="fa-solid fa-arrow-up-wide-short"></i> Count
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element.count}}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="price">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <i class="fa-solid fa-tag"></i> Price Per Ticket
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element.pricePerItem}} <i class="fa-solid fa-euro-sign"></i>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="total">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <i class="fa-solid fa-hand-holding-dollar"></i> Total
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element.pricePerItem*element.count}} <i class="fa-solid fa-euro-sign"></i>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <i class="fa-regular fa-chart-bar"></i> Status
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        <div *ngIf="element.status == 'paid' && element.rating == null">
+                            PAID
+                        </div>
+                        <div *ngIf="element.status == 'paid' && element.rating == true">
+                            LIKED
+                        </div>
+                        <div *ngIf="element.status == 'paid' && element.rating == false">
+                            DISLIKED
+                        </div>
+                        <div *ngIf="element.status == 'ordered' || element.status == 'canceled'">
+                            {{element.status.toUpperCase()}}
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="rating">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <i class="fa-solid fa-star"></i> Rating
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        <div *ngIf="element.rating == null">
+                            NO RATING
+                        </div>
+                        <div *ngIf="element.rating == true">
+                            LIKED
+                        </div>
+                        <div *ngIf="element.rating == false">
+                            DISLIKED
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <i class="fa-solid fa-location-arrow"></i> Actions
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="actions">
+                        <a mat-button [routerLink]="['/details/', element.id]">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i> Details
+                        </a>
+                        <div *ngIf="element.status == 'ordered'">
+                            <button type="button" mat-button (click)="doPay(element)">
+                                <i class="fa-solid fa-cart-shopping"></i> Pay
+                            </button>
+                            <button type="button" mat-button (click)="doCancel(element)">
+                                <i class="fa-solid fa-ban"></i> Cancel
+                            </button>
+                        </div>
+                        <div *ngIf="element.status == 'paid' && element.rating == null">
+                            <button type="button" mat-button (click)="doRating(element, true)">
+                                <i class="fa-solid fa-thumbs-up"></i> Like
+                            </button>
+                            <button type="button" mat-button (click)="doRating(element, false)">
+                                <i class="fa-solid fa-thumbs-down"></i> Dislike
+                            </button>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+    </div> -->
+    <!-- <pre>{{ userCopy?.orders | jsonPretty }}</pre> -->
+</div>

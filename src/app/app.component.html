@@ -1,0 +1,46 @@
+<mat-toolbar color="primary">
+  <span
+    ><i class="fa-solid fa-money-bill-1-wave"></i> Ticket Counter
+    <i class="fa-solid fa-money-bill-1-wave"></i
+  ></span>
+  <span class="spacer"></span>
+  <a routerLink="/" mat-button> <i class="fa-solid fa-house"></i> Repertoar </a>
+  <a routerLink="/search" mat-button>
+    <i class="fa-solid fa-search"></i> Search
+  </a>
+  <a routerLink="/login" mat-button *ngIf="!service.getActiveUser()">
+    <i class="fa-solid fa-right-to-bracket"></i> Login
+  </a>
+  <a routerLink="/user" mat-button *ngIf="service.getActiveUser()">
+    <i class="fa-solid fa-user"></i> Profile
+  </a>
+  <button mat-button *ngIf="service.getActiveUser()" (click)="doLogout()">
+    <i class="fa-solid fa-right-from-bracket"></i> Logout
+  </button>
+</mat-toolbar>
+
+<router-outlet />
+
+<mat-toolbar class="footer" color="primary">
+  <div class="footer-content">
+    <span><i class="fa-regular fa-copyright"></i> 2025 Ticket Counter</span>
+    <span class="footer-links">
+      <a routerLink="/about" mat-button>
+        <i class="fa-solid fa-circle-info"></i> About
+      </a>
+      <a mat-button href="#">Terms of Service</a>
+      <a mat-button href="#">Contact Us</a>
+    </span>
+    <div class="footer-icons">
+      <a href="#" aria-label="Facebook"
+        ><i class="fa-brands fa-facebook"></i
+      ></a>
+      <a href="#" aria-label="Twitter"
+        ><i class="fa-brands fa-square-twitter"></i
+      ></a>
+      <a href="#" aria-label="Instagram"
+        ><i class="fa-brands fa-square-instagram"></i
+      ></a>
+    </div>
+  </div>
+</mat-toolbar>

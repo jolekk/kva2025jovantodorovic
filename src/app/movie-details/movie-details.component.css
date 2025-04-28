@@ -1,0 +1,105 @@
+.title {
+  font-size: 30px;
+}
+
+.description {
+  color: #8e8e8e;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+.movie-wrapper {
+  display: grid;
+  grid-template-columns: 400px auto;
+  gap: 20px;
+  margin: 30px;
+}
+
+.listLabel {
+  font-size: 20px;
+  color: #fff;
+}
+
+.listText {
+  font-size: 16px;
+  color: #5799ef;
+}
+
+.movie-wrapper img {
+  width: 100%;
+}
+
+.wrapper-similar {
+  padding: 0 30px 100px 30px;
+}
+
+.starsContainer {
+  display: flex;
+  gap: 10px;
+  justify-content: start;
+  align-items: center;
+  /* padding: 0 0 0 14px; */
+}
+
+.starList {
+  display: flex;
+  gap: 8px;
+}
+
+.starList a {
+  color: #5799ef;
+}
+
+.similar-movies {
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 10px;
+  align-items: stretch;
+}
+
+.movie-details-card {
+}
+
+.matListItem {
+  height: 30px !important;
+  padding: 0 !important;
+}
+
+.repertoire {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.repertoire-container {
+  width: 100%;
+  padding: 0 8px;
+}
+
+.time {
+  display: inline-block;
+  padding: 3px 0px;
+  margin: 0px 0 4px 0;
+  color: #898989;
+  font-size: small;
+}
+
+.matList {
+  padding: 0;
+}
+
+.book-now {
+  color: #fff;
+    border: 1px solid #fff;
+    border-radius: unset;
+}
+
+@media (max-width: 930px) {
+  .movie-wrapper {
+    display: grid;
+    grid-template-columns: auto;
+    gap: 20px;
+    margin: 30px;
+  }
+}

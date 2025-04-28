@@ -1,0 +1,23 @@
+.mat-mdc-card-title {
+  font-size: 18px;
+  color: #fff;
+  font-weight: bold;
+}
+.movie-card .mat-mdc-card-subtitle {
+  color: #ffffffb3 !important;
+  font-size: 13px !important;
+  font-weight: 100 !important;
+  line-height: 19px !important;
+}
+/* .mat-mdc-card-content {
+  padding: 8px 16px;
+} */
+a.mat-mdc-outlined-button {
+  background-color: #6a6a6a !important;
+  color: white !important;
+  border-color: #000 !important;
+}
+
+.mat-mdc-card-actions {
+  justify-content: space-between;
+}

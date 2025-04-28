@@ -1,0 +1,21 @@
+<div *ngIf="error" class="wrapper">
+  <mat-card class="loading" appearance="outlined" color="red">
+    <mat-card-content>
+      <h1>Oops, an error occured!</h1>
+      <p style="color: red">{{ error }}</p>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div *ngIf="movies" class="wrapper">
+  <h1>Repertoar</h1>
+  <app-pageheader></app-pageheader>
+  <div>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae consequuntur eveniet at omnis laudantium expedita ducimus aliquam aspernatur in consectetur saepe dolorum, autem, doloribus facilis molestias, veniam itaque est enim.</div>
+  <div *ngIf="movies" class="container">
+      <ng-container *ngFor="let movie of movies">
+        <app-movie [movie]="movie" class="app-movie" />
+      </ng-container>
+  </div>
+</div>
+
+<app-loading *ngIf="!movies && !error" />

@@ -1,0 +1,118 @@
+<div class="movie-wrapper" *ngIf="movie">
+  <div>
+    <img [src]="movie.poster" [alt]="movie.title" />
+  </div>
+  <mat-card class="movie-details-card" appearance="raised">
+    <mat-card-content>
+      <h1 class="title">{{ movie.title }}</h1>
+      <h4>{{ movie.originalTitle }}</h4>
+      <mat-chip-set *ngIf="movieGenres.length > 0" aria-label="Genre selection">
+        <mat-chip *ngFor="let item of movieGenres">
+          {{ item?.genre?.name }}
+        </mat-chip>
+      </mat-chip-set>
+      <p class="description">{{ movie.description }}</p>
+      <mat-list class="matList">
+        <mat-list-item class="matListItem"
+          ><span class="listLabel">Director: </span
+          ><span class="listText">{{
+            movie?.director?.name || "N/A"
+          }}</span></mat-list-item
+        >
+        <mat-list-item class="matListItem"
+          ><span class="listLabel">Duration: </span
+          ><span class="listText"
+            >{{ movie?.runTime || "N/A" }} min</span
+          ></mat-list-item
+        >
+        <mat-list-item class="matListItem"
+          ><span class="listLabel">Start Date: </span
+          ><span class="listText">{{
+            utils.formatDate(movie.startDate)
+          }}</span></mat-list-item
+        >
+      </mat-list>
+      <div class="starsContainer">
+        <span class="listLabel">Stars: </span>
+        <div class="starList">
+          <div class="listTextN" *ngFor="let star of movie?.movieActors">
+            <a [routerLink]="['/actor/' + star?.actor?.actorId]">{{
+              star?.actor?.name + ", " || "N/A"
+            }}</a>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <div class="repertoire-container">
+        <h2>Repertoire</h2>
+        <div>
+          <div class="repertoire">
+            <div>
+              <div>19 Mart 2025</div>
+              <div class="time">Humphrey Bogart 19:00</div>
+            </div>
+            <div *ngIf="service.getActiveUser()">
+              <a
+                mat-button
+                (click)="
+                  doOrder('18-03-2025', 'Humphrey Bogart 19:00', movie)
+                "
+                class="book-now"
+              >
+                <i class="fa-solid fa-cart-shopping"></i> Book Now
+              </a>
+            </div>
+          </div>
+          <hr />
+          <div class="repertoire">
+            <div>
+              <div>19 Mart 2025</div>
+              <div class="time">Humphrey Bogart 19:00</div>
+            </div>
+            <div *ngIf="service.getActiveUser()">
+              <a
+                mat-button
+                (click)="
+                  doOrder('18-03-2025', 'Humphrey Bogart 19:00', movie)
+                "
+                class="book-now"
+              >
+                <i class="fa-solid fa-cart-shopping"></i> Book Now
+              </a>
+            </div>
+          </div>
+          <hr />
+          <div class="repertoire">
+            <div>
+              <div>19 Mart 2025</div>
+              <div class="time">Humphrey Bogart 19:00</div>
+            </div>
+            <div *ngIf="service.getActiveUser()">
+              <a
+                mat-button
+                (click)="
+                  doOrder('18-03-2025', 'Humphrey Bogart 19:00', movie)
+                "
+                class="book-now"
+              >
+                <i class="fa-solid fa-cart-shopping"></i> Book Now
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+<div *ngIf="movies" class="wrapper-similar">
+  <h2>Similar Movies</h2>
+  <div class="similar-movies">
+    <ng-container *ngFor="let movie of movies">
+      <app-movie [movie]="movie" class="app-movie" />
+    </ng-container>
+  </div>
+</div>
+
+<app-loading *ngIf="!movie" />

@@ -1,0 +1,20 @@
+<mat-card class="movie-card" appearance="outlined">
+  <img *ngIf="movie" mat-card-image [src]="movie.poster" [alt]="movie.title" />
+  <mat-card-content>
+    <mat-card-title>{{ movie.title }}</mat-card-title>
+    <mat-card-subtitle>{{ movie.shortDescription }}</mat-card-subtitle>
+  </mat-card-content>
+  <mat-card-actions>
+    <a mat-stroked-button [routerLink]="['/movie-details/', movie.movieId]">
+      <i class="fa-solid fa-circle-info"></i> Detalji
+    </a>
+    <!-- <a
+      mat-stroked-button
+      [routerLink]="['/details/' + movie.movieId + '/order']"
+    >
+      <i class="fa-solid fa-ticket"></i> Rezerviši
+    </a> -->
+  </mat-card-actions>
+</mat-card>
+
+<app-loading *ngIf="!movie" />

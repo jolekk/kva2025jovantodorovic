@@ -1,0 +1,83 @@
+<div class="wrapper">
+  <h1>Search</h1>
+  <app-pageheader></app-pageheader>
+  <mat-card class="search-card">
+    <mat-card-header class="search-header">
+      <mat-card-title>Search Criteria</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="search-content">
+      <mat-form-field class="search-input">
+        <mat-label>Search</mat-label>
+        <input
+          type="text"
+          matInput
+          placeholder="Enter search criteria"
+          (keyup)="onUserInputChange()"
+          [(ngModel)]="userInput"
+        />
+      </mat-form-field>
+      <mat-form-field class="search-input">
+        <mat-label>Genre</mat-label>
+        <mat-select
+          (selectionChange)="doFilterChain()"
+          [(ngModel)]="selectedGenre"
+        >
+          <mat-option *ngFor="let genre of listGenre" [value]="genre.genreId">
+            {{ genre.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="search-input">
+        <mat-label>Actor</mat-label>
+        <mat-select
+          (selectionChange)="doFilterChain()"
+          [(ngModel)]="selectedActor"
+        >
+          <mat-option *ngFor="let actor of listActor" [value]="actor.actorId">
+            {{ actor.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-content class="search-content">
+      <mat-form-field class="search-input">
+        <mat-label>Director</mat-label>
+        <mat-select
+          (selectionChange)="doFilterChain()"
+          [(ngModel)]="selectedDirector"
+        >
+          <mat-option
+            *ngFor="let director of listDirector"
+            [value]="director.directorId"
+          >
+            {{ director.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="search-input">
+        <mat-label>Run Time</mat-label>
+        <mat-select
+          (selectionChange)="doFilterChain()"
+          [(ngModel)]="selectedRunTime"
+        >
+          <mat-option *ngFor="let runTime of listRunTime" [value]="runTime">
+            {{ runTime }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-card-actions class="search-actions">
+        <button mat-button (click)="handleReset()">
+           Reset
+        </button>
+      </mat-card-actions>
+    </mat-card-content>
+  </mat-card>
+  <div *ngIf="movies" class="container">
+    <ng-container *ngFor="let movie of movies">
+      <app-movie [movie]="movie" class="app-movie" />
+    </ng-container>
+  </div>
+
+  <p *ngIf="movies.length == 0">Could not find any movies for that criteria!</p>
+    <app-loading *ngIf="!movies && !error" />
+</div>

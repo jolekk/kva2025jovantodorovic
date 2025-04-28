@@ -1,0 +1,116 @@
+.user-card {
+    margin-left: auto;
+    margin-right: auto;
+    /* max-width: 800px; */
+}
+
+.user-card-content {
+    padding: 10px;
+}
+
+.actions {
+    min-width: 300px;
+    height: 52px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.no-order {
+    margin-top: 30px;
+    /* width: 800px; */
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.no-border {
+    margin: 0;
+    padding: 0;
+}
+
+.simple-table-container {
+    width: 100%;
+    overflow-x: auto; /* Enables horizontal scrolling on small screens */
+    padding: 0 0 103px 0;
+}
+
+.simple-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px; /* Ensures table does not shrink too much */
+}
+
+.simple-table th, .simple-table td {
+    border: 1px solid #363636;
+    padding: 10px;
+    text-align: left;
+    white-space: nowrap; /* Prevents text from wrapping */
+}
+
+.simple-table th {
+    background-color: #090909;
+    color: white;
+}
+
+.action-link {
+    display: inline-block;
+    margin-right: 10px;
+    text-decoration: none;
+    color: #007BFF;
+}
+
+button {
+    margin-right: 5px;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #ddd;
+}
+
+/* Responsive: Stack columns into a block format on smaller screens */
+@media screen and (max-width: 768px) {
+    .simple-table-container {
+        overflow-x: auto;
+    }
+
+    .simple-table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    .simple-table thead {
+        display: none; /* Hide headers */
+    }
+
+    .simple-table tbody,
+    .simple-table tr {
+        display: block;
+        width: 100%;
+    }
+
+    .simple-table tr {
+        margin-bottom: 10px;
+        border-bottom: 2px solid #ddd;
+        display: flex;
+        flex-wrap: wrap;
+        padding: 10px;
+    }
+
+    .simple-table td {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        padding: 5px;
+        border: none;
+    }
+
+    .simple-table td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        min-width: 120px;
+    }
+}
